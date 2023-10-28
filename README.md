@@ -77,17 +77,18 @@ Zbiór testowy wyniki parametrów:
 - Specyficzność: 60%
 
 **Liniowa analiza dyskryminacyjna** (LDA) to metoda geometryczna, która koncentruje się na znalezieniu takiego kierunku rzutowania punktów na hiperpłaszczyznę, by jednocześnie: 
-– maksymalizować odległość między średnimi w grupach, 
-– minimalizować wariancję wewnątrzgrupową.
+– maksymalizować odległość między średnimi w grupach
+– minimalizować wariancję wewnątrzgrupową
 Im dalej od siebie będą położone punkty centralne i im mniejszy będzie rozrzut, tym mniej pokrywać się będą ich rozkłady.
 Założenia dla zmiennych ilościowych:
-- równość wariancji w grupach,
-- rozkład normalny w grupach.
+- równość wariancji w grupach
+- rozkład normalny w grupach
 Założenie o równości wariancji w grupach nie jest spełnione dla zmiennych: pedigree, pregnant oraz 
 glucose, dlatego nie sprawdzamy drugiego założenia o rozkładach normalnych w grupach i nie wykorzystujemy LDA.
 
 **Podsumowanie**
 Najwyższą dokładność osiągnięto dla modelu KKNN na zbiorze uczącym, podczas gdy najniższą dla modelu KNN na zbiorze testowym.
+
 **Krzywa ROC** jest narzędziem oceny jakości klasyfikatora dla różnych punktów odcięcia. Jest to graficzne przedstawienie zachowania modelu w zależności od poziomów specyficzności i czułości. Im bardziej krzywa ROC unosi się nad krzywą y = x tym lepszy jest klasyfikator. 
 
 ![image](https://github.com/klaudiasolek/Prognozowanie-cukrzycy-u-kobiet/assets/146526586/89a1cfd1-aee4-4ef7-bd03-6c50e0e88679)
@@ -102,6 +103,7 @@ najbardziej odbiega od krzywej ROC dla zbioru testowego niż w innych metodach.
 ![image](https://github.com/klaudiasolek/Prognozowanie-cukrzycy-u-kobiet/assets/146526586/fafa3a6d-6c8c-4382-ba4a-f555b2842a88)
 
 Krzywa ROC dla zbioru testowego jest wyżej niż krzywa dla zbioru uczącego.
+
 **AUC** 
 Pole pod krzywą ROC (AUC) to miara jakości klasyfikacji. Dla AUC = 0,5 klasyfikator jest losowy, a dla AUC = 1 klasyfikator jest idealny.
 - AUC KNN zbiór uczący = 0,822
