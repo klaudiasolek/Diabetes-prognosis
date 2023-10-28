@@ -1,4 +1,6 @@
 # Prognozowanie-cukrzycy-u-kobiet
+![image](https://github.com/klaudiasolek/Prognozowanie-cukrzycy-u-kobiet/assets/146526586/226032b3-e2b3-46b4-a506-0ec003853788)
+
 **Cukrzyca** (diabetes mellitus) to przewlekła choroba metaboliczna wynikająca z zaburzonego 
 wydzielania lub działania insuliny - hormonu produkowanego przez trzustkę.
 
@@ -79,10 +81,12 @@ Zbiór testowy wyniki parametrów:
 **Liniowa analiza dyskryminacyjna** (LDA) to metoda geometryczna, która koncentruje się na znalezieniu takiego kierunku rzutowania punktów na hiperpłaszczyznę, by jednocześnie: 
 – maksymalizować odległość między średnimi w grupach
 – minimalizować wariancję wewnątrzgrupową
+
 Im dalej od siebie będą położone punkty centralne i im mniejszy będzie rozrzut, tym mniej pokrywać się będą ich rozkłady.
 Założenia dla zmiennych ilościowych:
 - równość wariancji w grupach
 - rozkład normalny w grupach
+- 
 Założenie o równości wariancji w grupach nie jest spełnione dla zmiennych: pedigree, pregnant oraz 
 glucose, dlatego nie sprawdzamy drugiego założenia o rozkładach normalnych w grupach i nie wykorzystujemy LDA.
 
