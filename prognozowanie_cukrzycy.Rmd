@@ -1,0 +1,564 @@
+
+
+```{r}
+dane <- read.csv(choose.files(), header = TRUE, dec=",", sep=";")
+dane
+```
+
+```{r}
+dane$diabetes <- as.factor(dane$diabetes)
+summary(dane)
+```
+
+```{r}
+str(dane)
+```
+
+```{r}
+library(ggplot2)
+ggplot(dane) +
+  geom_boxplot(aes(y=age, col=diabetes))
+```
+
+
+```{r}
+library(ggplot2)
+ggplot(dane) +
+  geom_boxplot(aes(y=mass, col=diabetes))
+```
+
+```{r}
+library(ggplot2)
+ggplot(dane) +
+  geom_boxplot(aes(y=pedigree, col=diabetes))
+```
+
+```{r}
+library(ggplot2)
+ggplot(dane) +
+  geom_boxplot(aes(y=pressure, col=diabetes))
+```
+
+```{r}
+library(ggplot2)
+ggplot(dane) +
+  geom_boxplot(aes(y=glucose, col=diabetes))
+```
+
+
+```{r}
+library(ggplot2)
+ggplot(dane) +
+  geom_boxplot(aes(y=pregnant, col=diabetes))
+```
+
+```{r}
+table(dane$pregnant, dane$diabetes)
+```
+
+```{r}
+table(dane$diabetes, dane$glucose)
+```
+
+```{r}
+#do sprawdzenia korelacji i wsp zmiennosci
+dane$diabetes <- as.numeric(dane$diabetes)
+str(dane)
+```
+
+```{r}
+dane$diabetes <- as.numeric(dane$diabetes)
+round(cor(dane),3)
+```
+
+```{r}
+data.frame(zmienna = colnames(dane),
+           wspolczynnik_zmiennosci = c(sd(dane$pregnant )/mean(dane$pregnant ),
+                                       sd(dane$glucose )/mean(dane$glucose),
+                                       sd(dane$pressure)/mean(dane$pressure),
+                                       sd(dane$triceps)/mean(dane$triceps),
+                                       sd(dane$insulin)/mean(dane$insulin),
+                                       sd(dane$mass)/mean(dane$mass),
+                                       sd(dane$pedigree)/mean(dane$pedigree),
+                                       sd(dane$age)/mean(dane$age),
+                                       sd(dane$diabetes)/mean(dane$diabetes)
+                                       ))
+```
+
+
+##### KKN
+
+
+```{r}
+dane <- read.csv(choose.files(), header = TRUE, dec=",", sep=";")
+dane
+```
+
+
+```{r}
+dane$diabetes <- as.factor(dane$diabetes)
+summary(dane)
+```
+
+```{r}
+str(dane)
+```
+
+
+```{r}
+levels(dane$diabetes)
+```
+
+```{r}
+levels(dane$diabetes) <- c("0", "1")
+summary(dane)
+```
+
+
+```{r}
+str(dane)
+```
+
+
+```{r}
+set.seed(9)
+index  <- sample(nrow(dane), 614, replace = F)
+uczacy <- dane[index,]
+testowy <- dane[-index,]
+uczacy
+testowy
+```
+
+```{r}
+summary(uczacy)
+```
+
+```{r}
+summary(testowy)
+```
+
+```{r}
+uczacy$pregnant <- scale(uczacy$pregnant)
+uczacy$glucose <- scale(uczacy$glucose)
+uczacy$pressure <- scale(uczacy$pressure)
+uczacy$triceps <- scale(uczacy$triceps)
+uczacy$insulin <- scale(uczacy$insulin)
+uczacy$mass <- scale(uczacy$mass)
+uczacy$pedigree <- scale(uczacy$pedigree)
+uczacy$age <- scale(uczacy$age)
+uczacy
+```
+
+```{r}
+testowy$pregnant <- scale(testowy$pregnant)
+testowy$glucose <- scale(testowy$glucose)
+testowy$pressure <- scale(testowy$pressure)
+testowy$triceps <- scale(testowy$triceps)
+testowy$insulin <- scale(testowy$insulin)
+testowy$mass <- scale(testowy$mass)
+testowy$pedigree <- scale(testowy$pedigree)
+testowy$age <- scale(testowy$age)
+testowy
+```
+
+```{r}
+library(class)
+knn.uczacy <- knn(train = uczacy[, -9],    # zmienne objaśniające - zbiór uczący
+                  test = uczacy[, -9],     # zmienne objaśniające - zbiór, na którym weryfikujemy model
+                  cl = uczacy[, 9],        # zmienna wynikowa ze zbioru uczącego
+                  k = 3)                   # liczba sąsiadów
+knn.uczacy
+```
+
+```{r}
+t1 <- table(knn.uczacy, uczacy$diabetes)
+t1
+```
+```{r}
+#dokladnosc 
+(t1[1,1] + t1[2,2])/sum(t1)
+t1[1,1]/(t1[1,1] + t1[2,1])
+t1[2,2]/(t1[2,2] + t1[1,2])
+```
+```{r}
+#czulosc
+t1[1,1]/(t1[1,1] + t1[2,1])
+```
+
+```{r}
+#specyficznosc
+t1[2,2]/(t1[2,2] + t1[1,2])
+```
+
+```{r}
+knn.testowy <- knn(train = uczacy[, -9], 
+                   test = testowy[, -9],     
+                   cl = uczacy[, 9],      
+                   k = 3)               
+knn.testowy
+```
+
+```{r}
+t2 <- table(knn.testowy, testowy$diabetes)
+t2
+```
+
+
+
+
+```{r}
+#dokladnosc 
+(t2[1,1] + t2[2,2])/sum(t2)
+t2[1,1]/(t2[1,1] + t2[2,1])
+t2[2,2]/(t2[2,2] + t2[1,2])
+```
+
+
+
+```{r}
+# Przykład: maksymalizacja dokładności na zbiorze testowym
+acc = c()
+for(i in 1:30){
+  knn.model <- knn(train = uczacy[, -9], 
+                   test = testowy[, -9],     
+                   cl = uczacy[, 9],      
+                   k = i)  
+  t = table(knn.model, testowy[,9])
+  acc[i] = (t[1,1]+t[2,2])/sum(t)
+}
+
+# Wizualizacja
+ggplot(data.frame(acc, k = 1:30))+
+  geom_line(aes(x=k, y=acc))+
+  scale_x_continuous(breaks=1:30)
+```
+
+```{r}
+acc = c()
+for(i in 1:30){
+  knn.model <- knn(train = uczacy[, -9], 
+                   test = uczacy[, -9],     
+                   cl = uczacy[, 9],      
+                   k = i)  
+  t = table(knn.model, uczacy[,9])
+  acc[i] = (t[1,1]+t[2,2])/sum(t)
+}
+
+# Wizualizacja
+ggplot(data.frame(acc, k = 1:30))+
+  geom_line(aes(x=k, y=acc))+
+  scale_x_continuous(breaks=1:30)
+#dokladnosc maleje wraz ze wzrostem k
+```
+
+
+
+
+##### Ważona metoda k najbliższych sąsiadów (KKNN)
+
+```{r}
+str(uczacy)
+```
+
+
+```{r}
+library(kknn)
+kknn.uczacy <- kknn(formula = uczacy[, 9]~.,    # formuła ze zmienną wynikową Y ze zbioru uczącego
+                    train = uczacy[, -9],       # zmienne objaśniające - zbiór uczący
+                    test = uczacy[, -9],        # zmienne objaśniające - zbiór, na którym weryfikujemy model
+                    k = 3)                      # liczba sąsiadów
+kknn.uczacy
+```
+
+```{r}
+kknn.uczacy.wyniki <- fitted(kknn.uczacy)
+kknn.uczacy.wyniki
+```
+
+```{r}
+t3 <- table(kknn.uczacy.wyniki, uczacy$diabetes)
+t3
+```
+
+```{r}
+(t3[1,1] + t3[2,2])/sum(t3)
+t3[1,1]/(t3[1,1] + t3[2,1])
+t3[2,2]/(t3[2,2] + t3[1,2])
+```
+
+
+```{r}
+kknn.testowy <- kknn(formula = uczacy[, 9]~.,  
+                    train = uczacy[, -9],       
+                    test = testowy[, -9],        
+                    k = 24)
+
+kknn.testowy.wyniki <- fitted(kknn.testowy)
+kknn.testowy.wyniki
+t4 <- table(kknn.testowy.wyniki, testowy$diabetes)
+t4
+```
+```{r}
+(t4[1,1] + t4[2,2])/sum(t4)
+t4[1,1]/(t4[1,1] + t4[2,1])
+t4[2,2]/(t4[2,2] + t4[1,2])
+```
+
+```{r}
+# Przykład: maksymalizacja dokładności na zbiorze testowym
+acc = c()
+for(i in 1:30){
+  kknn.testowy <- kknn(formula = uczacy[, 9]~.,  
+                    train = uczacy[, -9],       
+                    test = testowy[, -9],        
+                    k = i)
+  kknn.testowy.wyniki <- fitted(kknn.testowy)
+  t = table(kknn.testowy.wyniki, testowy[,9])
+  acc[i] = (t[1,1]+t[2,2])/sum(t)
+}
+
+# Wizualizacja
+ggplot(data.frame(acc, k = 1:30))+
+  geom_line(aes(x=k, y=acc))+
+  scale_x_continuous(breaks=1:30)
+```
+
+
+```{r}
+# Przykład: maksymalizacja dokładności na zbiorze testowym
+acc = c()
+for(i in 1:30){
+  kknn.uczacy <- kknn(formula = uczacy[, 9]~.,  
+                    train = uczacy[, -9],       
+                    test = uczacy[, -9],        
+                    k = i)
+  kknn.uczacy.wyniki <- fitted(kknn.uczacy)
+  t = table(kknn.uczacy.wyniki, uczacy[,9])
+  acc[i] = (t[1,1]+t[2,2])/sum(t)
+}
+
+# Wizualizacja
+ggplot(data.frame(acc, k = 1:30))+
+  geom_line(aes(x=k, y=acc))+
+  scale_x_continuous(breaks=1:30)
+```
+
+
+
+############################################################
+
+```{r}
+dane$diabetes <- as.factor(dane$diabetes)
+levels(dane$diabetes) <- c("0", "1")
+summary(dane)
+summary(testowy)
+summary(uczacy)
+```
+
+
+#model regresji logistycznej 
+
+
+```{r}
+library(stats)
+glm_model <- glm(diabetes ~ ., 
+                 data = uczacy, 
+                 family = "binomial")
+summary(glm_model)
+```
+
+```{r}
+dane1 <- dane[,-4]
+dane2 <- dane1[,-3]
+dane3 <- dane2[,-3]
+dane4 <- dane3[,-5]
+dane4
+```
+
+```{r}
+#80% z 768  614
+#20% z 768  154
+set.seed(9)
+index2  <- sample(nrow(dane4), 614, replace = F)
+uczacy2 <- dane4[index2,]
+testowy2 <- dane4[-index2,]
+uczacy2
+testowy2
+```
+
+```{r}
+library(stats)
+glm_model2 <- glm(diabetes ~ ., 
+                 data = uczacy2, 
+                 family = "binomial")
+summary(glm_model2)
+```
+
+```{r}
+p <- predict(glm_model2, newdata = uczacy2, type = "response") 
+prog_train <- ifelse(p > 0.5, 1, 0)
+head(prog_train, 20)
+```
+
+```{r}
+p2  <- predict(glm_model2, newdata = testowy2, type = "response")
+prog_test <- ifelse(p2 > 0.5, 1, 0)
+head(prog_test, 20)
+```
+
+```{r}
+tab_train <- table(prog_train, uczacy2$diabetes)
+tab_train
+```
+
+```{r}
+(tab_train[1,1] + tab_train[2,2])/sum(tab_train)
+tab_train[1,1]/(tab_train[1,1] + tab_train[2,1])
+tab_train[2,2]/(tab_train[2,2] + tab_train[1,2])
+```
+
+
+```{r}
+tab_test <- table(prog_test, testowy2$diabetes)
+tab_test
+```
+
+```{r}
+(tab_test[1,1] + tab_test[2,2])/sum(tab_test)
+tab_test[1,1]/(tab_test[1,1] + tab_test[2,1])
+tab_test[2,2]/(tab_test[2,2] + tab_test[1,2])
+```
+
+################################################################
+
+#LDA
+
+
+```{r}
+summary(dane)
+```
+
+
+```{r}
+library(ggplot2)
+ggplot(dane, aes_string(x = "diabetes", y = "age")) + 
+  geom_boxplot()
+```
+
+```{r}
+leveneTest(age ~ diabetes, dane)
+leveneTest(pedigree ~ diabetes, dane)
+leveneTest(mass ~ diabetes, dane)
+leveneTest(insulin ~ diabetes, dane)
+leveneTest(triceps ~ diabetes, dane)
+leveneTest(pressure ~ diabetes, dane)
+leveneTest(glucose ~ diabetes, dane)
+leveneTest(pregnant ~ diabetes, dane)
+```
+
+```{r}
+library(heplots)
+leveneTest(pedigree ~ diabetes, dane)
+#nie jest spelnione zalozenie o rownosci wariancji w grupach
+```
+
+```{r}
+library(heplots)
+leveneTest(mass ~ diabetes, dane)
+```
+
+```{r}
+library(heplots)
+leveneTest(insulin ~ diabetes, dane)
+```
+
+```{r}
+library(heplots)
+leveneTest(triceps ~ diabetes, dane)
+```
+
+```{r}
+library(heplots)
+leveneTest(pressure ~ diabetes, dane)
+```
+
+
+```{r}
+library(heplots)
+leveneTest(glucose ~ diabetes, dane)
+#nie jest spelnione zalozenie o rownosci wariancji w grupach
+```
+
+```{r}
+library(heplots)
+leveneTest(pregnant ~ diabetes, dane)
+#nie jest spelnione zalozenie o rownosci wariancji w grupach 
+```
+
+
+```{r}
+library(pROC)
+# KNN:
+# Zbiór uczący
+ROC.knn.u <- roc(uczacy$diabetes, as.numeric(knn.uczacy))
+# Zbiór testowy
+ROC.knn.t <- roc(testowy$diabetes, as.numeric(knn.testowy))
+
+ggroc(list(Zbior_uczacy=ROC.knn.u, Zbior_testowy=ROC.knn.t), size=1.5) + 
+  labs(colour = "Rodzaj zbioru:") +
+  geom_abline(intercept = 1, color = "darkgrey", linetype = "dashed")
+```
+
+
+```{r}
+library(pROC)
+# KKNN:
+# Zbiór uczący
+ROC.kknn.u <- roc(uczacy$diabetes, as.numeric(kknn.uczacy.wyniki))
+# Zbiór testowy
+ROC.kknn.t <- roc(testowy$diabetes, as.numeric(kknn.testowy.wyniki))
+
+ggroc(list(Zbior_uczacy=ROC.kknn.u, Zbior_testowy=ROC.kknn.t), size=1.5) + 
+  labs(colour = "Rodzaj zbioru:") +
+  geom_abline(intercept = 1, color = "darkgrey", linetype = "dashed")
+```
+
+```{r}
+library(pROC)
+# Regresja logistyczna:
+# Zbiór uczący
+ROC.rl.u <- roc(uczacy$diabetes, as.numeric(prog_train))
+# Zbiór testowy
+ROC.rl.t <- roc(testowy$diabetes, as.numeric(prog_test))
+
+ggroc(list(Zbior_uczacy=ROC.rl.u, Zbior_testowy=ROC.rl.t), size=1.5) + 
+  labs(colour = "Rodzaj zbioru:") +
+  geom_abline(intercept = 1, color = "darkgrey", linetype = "dashed")
+```
+
+
+
+```{r}
+auc(ROC.knn.u)
+auc(ROC.knn.t)
+```
+
+```{r}
+auc(ROC.kknn.u)
+auc(ROC.kknn.t)
+```
+
+```{r}
+auc(ROC.rl.u)
+auc(ROC.rl.t)
+```
+
+
+
+
+
+
+
+
+
+
