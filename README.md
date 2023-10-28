@@ -79,6 +79,7 @@ Zbiór testowy wyniki parametrów:
 - Specyficzność: 60%
 
 **Liniowa analiza dyskryminacyjna** (LDA) to metoda geometryczna, która koncentruje się na znalezieniu takiego kierunku rzutowania punktów na hiperpłaszczyznę, by jednocześnie maksymalizować odległość między średnimi w grupach oraz minimalizować wariancję wewnątrzgrupową. 
+
 Założenia dla zmiennych ilościowych:
 
 - równość wariancji w grupach
