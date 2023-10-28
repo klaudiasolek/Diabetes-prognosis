@@ -5,7 +5,7 @@ wydzielania lub działania insuliny - hormonu produkowanego przez trzustkę.
 Dane Światowej Organizacji Zdrowia (WHO) wskazują, że według szacunków na rok 2014 na całym świecie żyło 422 miliony dorosłych osób z cukrzycą (w porównaniu do 108 milionów w 1980 roku). International Diabetes Federation prognozuje, że do 2040 roku liczba osób z cukrzycą wzrośnie do 642 milionów. Szacunki Centers for Disease Control and Prevention sugerują, że cukrzyca i jej powikłania staną się główną przyczyną zgonów kobiet do 2040 roku, a odsetek kobiet z tą chorobą może wzrosnąć o 40 procent. Dane te podkreślają znaczenie zwiększenia świadomości na temat cukrzycy oraz potrzebę działań profilaktycznych i edukacyjnych, aby zaradzić temu problemowi na skalę globalną.
 
 Celem pracy jest zbadanie jakości prognozowania wybranymi metodami uczenia maszynowego:
-• Metoda k najbliższych sąsiadów (KNN)
+- Metoda k najbliższych sąsiadów (KNN)
 • Ważona metoda k najbliższych sąsiadów (KKNN)
 • Regresja logistyczna
 • Liniowa analiza dyskryminacyjna (LDA)
