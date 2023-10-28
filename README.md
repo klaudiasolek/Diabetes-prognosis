@@ -41,40 +41,40 @@ Wszystkie parametry (dokładność, czułość, specyficzność) powinny osiąga
 wynik w oparciu o głos większości tych obiektów.
 
 Zbiór uczący wyniki parametrów dla k = 3: 
--Dokładność: 84,53%
--Czułość: 89,41%
--Specyficzność: 75%
+- Dokładność: 84,53%
+- Czułość: 89,41%
+- Specyficzność: 75%
 
 Zbiór testowy wyniki parametrów dla k = 3: 
--Dokładność: 69,48%
--Czułość: 82,97%
--Specyficzność: 48,33%
+- Dokładność: 69,48%
+- Czułość: 82,97%
+- Specyficzność: 48,33%
 
 **Ważona metoda k najbliższych sąsiadów** (KKNN) jest pewnym udoskonaleniem metody k najbliższych sąsiadów. „Głosowanie” dotyczące klasyfikacji wciąż uwzględnia k sąsiadów. Waga „głosu” nie jest 
 taka sama, a zależy od odległości sąsiada od klasyfikowanego obiektu.
 
 Zbiór uczący wyniki parametrów dla k = 3: 
--Dokładność: 100%
--Czułość: 100%
--Specyficzność: 100%
+- Dokładność: 100%
+- Czułość: 100%
+- Specyficzność: 100%
 
 Zbiór testowy wyniki parametrów dla k = 3: 
--Dokładność: 71,42%
--Czułość: 80,85%
--Specyficzność: 56,66%
+- Dokładność: 71,42%
+- Czułość: 80,85%
+- Specyficzność: 56,66%
 
 **Regresja logistyczna** jest techniką regresyjną co oznacza, że jest ona zestawem narzędzi statystycznych służących do oszacowania zależności między zmiennymi. W regresji logistycznej, na 
 podstawie zestawu cech ilościowych i jakościowych chcemy przewidzieć wartość zmiennej jakościowej.
 
 Zbiór uczący wyniki parametrów: 
--Dokładność: 76,38%
--Czułość: 87,93%
--Specyficzność: 53,84%
+- Dokładność: 76,38%
+- Czułość: 87,93%
+- Specyficzność: 53,84%
 
 Zbiór testowy wyniki parametrów: 
--Dokładność: 78,57%
--Czułość: 90,42%
--Specyficzność: 60%
+- Dokładność: 78,57%
+- Czułość: 90,42%
+- Specyficzność: 60%
 
 **Liniowa analiza dyskryminacyjna** (LDA) to metoda geometryczna, która koncentruje się na znalezieniu takiego kierunku rzutowania punktów na hiperpłaszczyznę, by jednocześnie: 
 – maksymalizować odległość między średnimi w grupach, 
@@ -104,11 +104,11 @@ najbardziej odbiega od krzywej ROC dla zbioru testowego niż w innych metodach.
 Krzywa ROC dla zbioru testowego jest wyżej niż krzywa dla zbioru uczącego.
 **AUC** 
 Pole pod krzywą ROC (AUC) to miara jakości klasyfikacji. Dla AUC = 0,5 klasyfikator jest losowy, a dla AUC = 1 klasyfikator jest idealny.
--AUC KNN zbiór uczący = 0,822
--AUC KNN zbiór testowy = 0,6566
--AUC KKNN zbiór uczący = 1
--AUC KKNN zbiór testowy = 0,7378
--AUC regresja liniowa zbiór uczący = 0,7089
--AUC regresja liniowa zbiór testowy = 0,7521
+- AUC KNN zbiór uczący = 0,822
+- AUC KNN zbiór testowy = 0,6566
+- AUC KKNN zbiór uczący = 1
+- AUC KKNN zbiór testowy = 0,7378
+- AUC regresja liniowa zbiór uczący = 0,7089
+- AUC regresja liniowa zbiór testowy = 0,7521
 Wyniki pokazują, że model KKNN na zbiorze uczącym osiągnął idealne AUC wynoszące 1, co sugeruje doskonałą zdolność rozróżniania klas na tym zbiorze. Model KNN na zbiorze testowym uzyskał najniższe AUC, co może oznaczać pewien stopień niestabilności modelu na zbiorze testowym, ale wynik wciąż jest akceptowalny.
 Podsumowując, analiza krzywych ROC i wyników AUC wskazuje na ogólnie dobrą jakość klasyfikacji w przypadku badanych modeli.
