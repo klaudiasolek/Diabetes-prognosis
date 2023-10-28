@@ -78,19 +78,17 @@ Zbiór testowy wyniki parametrów:
 - Czułość: 90,42%
 - Specyficzność: 60%
 
-**Liniowa analiza dyskryminacyjna** (LDA) to metoda geometryczna, która koncentruje się na znalezieniu takiego kierunku rzutowania punktów na hiperpłaszczyznę, by jednocześnie: 
-– maksymalizować odległość między średnimi w grupach
-– minimalizować wariancję wewnątrzgrupową
-
-Im dalej od siebie będą położone punkty centralne i im mniejszy będzie rozrzut, tym mniej pokrywać się będą ich rozkłady.
+**Liniowa analiza dyskryminacyjna** (LDA) to metoda geometryczna, która koncentruje się na znalezieniu takiego kierunku rzutowania punktów na hiperpłaszczyznę, by jednocześnie maksymalizować odległość między średnimi w grupach oraz minimalizować wariancję wewnątrzgrupową. 
 Założenia dla zmiennych ilościowych:
+
 - równość wariancji w grupach
 - rozkład normalny w grupach
-- 
+
 Założenie o równości wariancji w grupach nie jest spełnione dla zmiennych: pedigree, pregnant oraz 
 glucose, dlatego nie sprawdzamy drugiego założenia o rozkładach normalnych w grupach i nie wykorzystujemy LDA.
 
 **Podsumowanie**
+
 Najwyższą dokładność osiągnięto dla modelu KKNN na zbiorze uczącym, podczas gdy najniższą dla modelu KNN na zbiorze testowym.
 
 **Krzywa ROC** jest narzędziem oceny jakości klasyfikatora dla różnych punktów odcięcia. Jest to graficzne przedstawienie zachowania modelu w zależności od poziomów specyficzności i czułości. Im bardziej krzywa ROC unosi się nad krzywą y = x tym lepszy jest klasyfikator. 
@@ -109,12 +107,13 @@ najbardziej odbiega od krzywej ROC dla zbioru testowego niż w innych metodach.
 Krzywa ROC dla zbioru testowego jest wyżej niż krzywa dla zbioru uczącego.
 
 **AUC** 
-Pole pod krzywą ROC (AUC) to miara jakości klasyfikacji. Dla AUC = 0,5 klasyfikator jest losowy, a dla AUC = 1 klasyfikator jest idealny.
+- Pole pod krzywą ROC (AUC) to miara jakości klasyfikacji. Dla AUC = 0,5 klasyfikator jest losowy, a dla AUC = 1 klasyfikator jest idealny.
 - AUC KNN zbiór uczący = 0,822
 - AUC KNN zbiór testowy = 0,6566
 - AUC KKNN zbiór uczący = 1
 - AUC KKNN zbiór testowy = 0,7378
 - AUC regresja liniowa zbiór uczący = 0,7089
 - AUC regresja liniowa zbiór testowy = 0,7521
+  
 Wyniki pokazują, że model KKNN na zbiorze uczącym osiągnął idealne AUC wynoszące 1, co sugeruje doskonałą zdolność rozróżniania klas na tym zbiorze. Model KNN na zbiorze testowym uzyskał najniższe AUC, co może oznaczać pewien stopień niestabilności modelu na zbiorze testowym, ale wynik wciąż jest akceptowalny.
 Podsumowując, analiza krzywych ROC i wyników AUC wskazuje na ogólnie dobrą jakość klasyfikacji w przypadku badanych modeli.
